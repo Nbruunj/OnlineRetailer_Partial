@@ -22,12 +22,14 @@ namespace OrderApi.Data
 
             List<OrderLine> orderLines = new List<OrderLine>
             {
-                new OrderLine { OrderId = 1, ProductId = 2, Quantity = 3 }
+                new OrderLine { OrderId = 1, ProductId = 2, Quantity = 3}
             };
+            context.OrderLines.AddRange(orderLines);
+            context.SaveChanges();
 
             List<Order> orders = new List<Order>
             {
-                new Order { Date = DateTime.Today, OrderLines = orderLines, Status = Order.OrderStatus.completed, customerId = 1}
+                new Order {Date = DateTime.Today, OrderLines = orderLines, Status = Order.OrderStatus.completed, customerId = 1}
             };
 
             context.Orders.AddRange(orders);

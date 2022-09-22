@@ -40,7 +40,7 @@ namespace OrderApi.Controllers
 
         // POST orders
         [HttpPost]
-        public IActionResult Post([FromBody]Order order, OrderLine orderLine)
+        public IActionResult Post([FromQuery]Order order)
         {
             if (order == null)
             {
@@ -51,29 +51,34 @@ namespace OrderApi.Controllers
             // You may need to change the port number in the BaseUrl below
             // before you can run the request.
             RestClient c = new RestClient("https://localhost:5001/products/");
-            var request = new RestRequest(orderLine.ProductId.ToString());
-            var response = c.GetAsync<Product>(request);
-            response.Wait();
-            var orderedProduct = response.Result;
-
-            if (orderLine.Quantity <= orderedProduct.ItemsInStock - orderedProduct.ItemsReserved)
+            if(order.OrderLines.Any())
             {
-                // reduce the number of items in stock for the ordered product,
-                // and create a new order.
-                orderedProduct.ItemsReserved += orderLine.Quantity;
-                var updateRequest = new RestRequest(orderedProduct.Id.ToString());
-                updateRequest.AddJsonBody(orderedProduct);
-                var updateResponse = c.PutAsync(updateRequest);
-                updateResponse.Wait();
-
-                if (updateResponse.IsCompletedSuccessfully)
+                foreach(var orderLine in order.OrderLines)
                 {
-                    var newOrder = repository.Add(order);
-                    return CreatedAtRoute("GetOrder",
-                        new { id = newOrder.Id }, newOrder);
+                    var request = new RestRequest(orderLine.ProductId.ToString());
+                    var response = c.GetAsync<Product>(request);
+                    response.Wait();
+                    var orderedProduct = response.Result;
+
+                    if (orderLine.Quantity <= orderedProduct.ItemsInStock - orderedProduct.ItemsReserved)
+                    {
+                        // reduce the number of items in stock for the ordered product,
+                        // and create a new order.
+                        orderedProduct.ItemsReserved += orderLine.Quantity;
+                        var updateRequest = new RestRequest(orderedProduct.Id.ToString());
+                        updateRequest.AddJsonBody(orderedProduct);
+                        var updateResponse = c.PutAsync(updateRequest);
+                        updateResponse.Wait();
+
+                        if (updateResponse.IsCompletedSuccessfully)
+                        {
+                            var newOrder = repository.Add(order);
+                            return CreatedAtRoute("GetOrder",
+                                new { id = newOrder.Id }, newOrder);
+                        }
+                    }
                 }
             }
-
             // If the order could not be created, "return no content".
             return NoContent();
         }
