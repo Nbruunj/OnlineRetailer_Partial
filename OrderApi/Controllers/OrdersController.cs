@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using CustomerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using OrderApi.Data;
 using OrderApi.Models;
 using RestSharp;
-using static OrderApi.Models.Order;
 
 namespace OrderApi.Controllers
 {
@@ -47,6 +47,11 @@ namespace OrderApi.Controllers
                 return BadRequest();
             }
 
+            if(!CheckCustomerCreditStanding(order.customerId))
+            {
+                return BadRequest("Customer not found or has an unpaid bill)");
+            }
+
             // Call ProductApi to get the product ordered
             // You may need to change the port number in the BaseUrl below
             // before you can run the request.
@@ -72,6 +77,8 @@ namespace OrderApi.Controllers
 
                         if (updateResponse.IsCompletedSuccessfully)
                         {
+                            UpdateCreditStanding(order.customerId);
+
                             var newOrder = repository.Add(order);
                             return CreatedAtRoute("GetOrder",
                                 new { id = newOrder.Id }, newOrder);
@@ -81,6 +88,35 @@ namespace OrderApi.Controllers
             }
             // If the order could not be created, "return no content".
             return NoContent();
+        }
+
+        public bool CheckCustomerCreditStanding(int? id)
+        {
+            RestClient c = new RestClient("https://localhost:7082/customer/");
+            var request = new RestRequest(id.ToString());
+            var response = c.Execute<Customer>(request);
+
+            if(response.Data != null)
+            {
+                return response.Data.CreditStanding;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void UpdateCreditStanding(int? id)
+        {
+            RestClient c = new RestClient("https://localhost:7082/customer/");
+            Customer updateCustomer = new Customer()
+            {
+                Id = id,
+                CreditStanding = false
+            };
+            var updateCustomerRequest = new RestRequest(id.ToString());
+            updateCustomerRequest.AddJsonBody(updateCustomer);
+            c.Execute(updateCustomerRequest);
         }
 
     }
