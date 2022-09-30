@@ -1,0 +1,26 @@
+version: "3.6"
+services:
+  api-1:
+    build:
+      context: .
+      dockerfile: "CustomerAPI/Dockerfile"
+    ports:
+    - "8071:80"
+    volumes:
+    - "C:/Users/nbruu/data/data"
+  api-2:
+    build:
+      context: .
+      dockerfile: "OrderApi/Dockerfile"
+    ports:
+    - "8072:80"
+    volumes:
+    - "C:/Users/nbruu/data/data"
+  api-3:
+    build:
+      context: .
+      dockerfile: "productApi/Dockerfile"
+    ports:
+    - "8073:80"
+    volumes:
+    - "C:/Users/nbruu/data/data"

@@ -89,7 +89,7 @@ namespace OrderApi.Controllers
             // If the order could not be created, "return no content".
             return NoContent();
         }
-
+        [NonAction]
         public bool CheckCustomerCreditStanding(int? id)
         {
             RestClient c = new RestClient("https://localhost:7082/customer/");
@@ -105,7 +105,7 @@ namespace OrderApi.Controllers
                 return false;
             }
         }
-
+        [NonAction]
         public void UpdateCreditStanding(int? id)
         {
             RestClient c = new RestClient("https://localhost:7082/customer/");
