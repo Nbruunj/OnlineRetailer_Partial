@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using CustomerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using OrderApi.Data;
 using OrderApi.Models;
 using RestSharp;
+using shardmodels;
+using Order = OrderApi.Models.Order;
 
 namespace OrderApi.Controllers
 {
@@ -61,7 +62,7 @@ namespace OrderApi.Controllers
                 foreach(var orderLine in order.OrderLines)
                 {
                     var request = new RestRequest(orderLine.ProductId.ToString());
-                    var response = c.GetAsync<Product>(request);
+                    var response = c.GetAsync<shardmodels.Product>(request);
                     response.Wait();
                     var orderedProduct = response.Result;
 

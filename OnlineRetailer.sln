@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shardmodels", "shardmodels\shardmodels.csproj", "{3346CE86-5A21-4438-A733-0E9D9644393E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{F05494C5-A068-4832-8B58-271178295359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F05494C5-A068-4832-8B58-271178295359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F05494C5-A068-4832-8B58-271178295359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3346CE86-5A21-4438-A733-0E9D9644393E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3346CE86-5A21-4438-A733-0E9D9644393E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3346CE86-5A21-4438-A733-0E9D9644393E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3346CE86-5A21-4438-A733-0E9D9644393E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

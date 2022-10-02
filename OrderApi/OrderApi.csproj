@@ -23,6 +23,6 @@
     <None Remove="Swashbuckle.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomerAPI\CustomerAPI.csproj" />
+    <ProjectReference Include="..\shardmodels\shardmodels.csproj" />
   </ItemGroup>
 </Project>

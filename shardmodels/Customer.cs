@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CustomerAPI.Models
-{/*
+namespace shardmodels
+{
     public class Customer
     {
         public int? Id { get; set; }
@@ -14,5 +18,4 @@ namespace CustomerAPI.Models
         [DefaultValue(true)]
         public bool CreditStanding { get; set; }
     }
-    */
 }
